@@ -12,8 +12,8 @@ W = [.02^2, 0; 0, .02^2];
 
 %jacobians
 r = dist;
-Hx = [-(xD - nPos(1))/r, -(yD - nPos(2))/r, 0;
-    (yD - nPos(2))/r^2, -(xD - nPos(1))/r^2, -1];
+Hx = [-(xD - pos(1))/r, -(yD - pos(2))/r, 0;
+    (yD - pos(2))/r^2, -(xD - pos(1))/r^2, -1];
 Hw = eye(2);
 
 %used to calulate K

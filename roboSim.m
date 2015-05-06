@@ -4,9 +4,9 @@
 
     %clear
     close all
-    %landMarks = setupPlot(3);
+    landMarks = setupPlot(3);
     
-    %load landMarks;
+    load landMarks;
     nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
     fig1 = figure(1);
     %fig2 = figure(2);
@@ -97,14 +97,14 @@
         
         nDist = sqrt(nxD^2 + nyD^2);
         
-%         phiAngle = mod(phi,2*pi);
+        phiAngle = mod(phi,2*pi);
 %         if (phiAngle > pi)
 %             phiAngle = phiAngle - 2*pi;
 %         end
 %         
-        theta = atan2(yD,xD) + pi/2; % - phiAngle;
+        theta = mod(atan2(yD,xD), 2*pi) - phiAngle;
         
-        nTheta = atan2(nyD,nxD) +pi/2; % - phiAngle;
+        nTheta = mod(atan2(nyD,nxD), 2*pi) - phiAngle;
         
         max = pi/6;
         min = -pi/6;
@@ -113,7 +113,7 @@
         
         seen(mark) = dist;
         if (mark == 1)
-        test = [atan2(yD,xD)*180/pi, theta*180/pi, phi*180/pi]
+        test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
         pause(0.1)
         end
         
@@ -122,7 +122,7 @@
         else
         seen(mark) = 0;
         if (mark == 1)
-        test = [atan2(yD,xD)*180/pi, theta*180/pi, phi*180/pi]
+        test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
         pause(0.1)
         end
         end
