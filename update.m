@@ -20,7 +20,7 @@ Hw = eye(2);
 S = Hx * P_cov * Hx' + Hw * W * Hw';
 
 %Kalman gain
-K = P_cov * Hx' * inv(S)
+K = P_cov * Hx' * inv(S);
 
 %predicted state from odometry
 xHato = [nPos; nPhi];
@@ -28,8 +28,8 @@ xHato = [nPos; nPhi];
 %update predicted state using new info
 xHat = xHato + K * vErr;
 
-diff = [diff, (xHat - xHato)];
-diff = sign(diff);
+%diff = [diff, (xHat - xHato)];
+%diff = sign(diff);
 % 
 % figure(fig2)
 % plot(diff(1,:))

@@ -95,16 +95,11 @@
         
         dist = sqrt(xD^2 + yD^2);
         
+        theta = atan2(yD,xD) - mod(phi,2*pi);
+        %theta = theta2;%atan2(yD,xD) - mod(phi,2*pi)
+        
         nDist = sqrt(nxD^2 + nyD^2);
-        
-        phiAngle = mod(phi,2*pi);
-        if (phiAngle > pi)
-            phiAngle = phiAngle - 2*pi;
-        end
-        
-        theta = atan2(yD,xD) - phiAngle;
-        
-        nTheta = atan2(nyD,nxD) - phiAngle;
+        nTheta = atan2(nyD,nxD) - mod(phi,2*pi);
         
         max = pi/6;
         min = -pi/6;
@@ -113,8 +108,6 @@
         %if (abs(theta<pi/6));
         seen(mark) = dist;
         
-        %pause(0.000000000001)
-     
         update
         
         else
