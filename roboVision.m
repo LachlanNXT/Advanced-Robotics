@@ -3,7 +3,7 @@
 
 clc; close all; warning off;
 set(0,'DefaultFigureWindowStyle','docked');
-silent = 1;
+silent = 0;
 
 %% Aquire Images
 
@@ -13,7 +13,7 @@ if prod(s(1:2))>1.7e6
     im = iscale(im,.2);
 end
 
-idisp(im)
+imshow(im)
 
 fObject = [0, 0, 0];
 fsizes = {};
@@ -31,13 +31,13 @@ red = double(im(:,:,1));
 green = double(im(:,:,2));
 blue = double(im(:,:,3));
 if ~silent
-idisp(im)
-figure
-idisp(red)
-figure
-idisp(green)
-figure
-idisp(blue)
+imshow(im)
+% figure
+% imshow(red)
+% figure
+% imshow(green)
+% figure
+% imshow(blue)
 input('continue? ')
 end
 
@@ -47,13 +47,13 @@ S = red+green+blue;
 S = double(S);
 r = red./S; g = green./S; b = blue./S;
 if ~silent
-close all
+%close all
 figure
-idisp(r)
+imshow(r)
 figure
-idisp(g)
+imshow(g)
 figure
-idisp(b)
+imshow(b)
 input('continue? ')
 end
 
@@ -72,11 +72,11 @@ tred = r>=tr; tgreen = g>=tg; tblue = b>=tb;
 if ~silent
 close all
 figure
-idisp(tred)
+imshow(tred)
 figure
-idisp(tgreen)
+imshow(tgreen)
 figure
-idisp(tblue)
+imshow(tblue)
 input('continue? ')
 end
 % pred = sum(sum(tred))/fullsize;
@@ -95,11 +95,11 @@ tblue = imopen(tblue,se);
 if ~silent
 close all
 figure
-idisp(tred)
+imshow(tred)
 figure
-idisp(tgreen)
+imshow(tgreen)
 figure
-idisp(tblue)
+imshow(tblue)
 input('continue? ')
 end
 
@@ -125,7 +125,7 @@ bLb = bLb(2:end);
 
 close all
 figure
-idisp(tblue);
+imshow(tblue);
 for i = 1:max(size(bb))
     if (bb(i).class == 1)
         bb(i).plot_box
@@ -140,7 +140,7 @@ close all
 tos = tred + tgreen;
 osb = iblobs(tos,'area',[300,inf],'class',1,'greyscale','boundary');
 figure
-idisp(tos)
+imshow(tos)
 osb.plot
 
 %% Shape vectors
@@ -179,7 +179,7 @@ gb(gTriangles).plot_box('red');
 
 input('Red on triangles - continue? ')
 
-idisp(tos);
+imshow(tos);
 osb.plot;
 gb.plot_box('blue');
 
@@ -284,51 +284,10 @@ end
 BinSS = Bshape{1}+Bshape{2}+Bshape{3};
 
 close all
-idisp(BinSS);
+imshow(BinSS);
 for count = 1:3
     shape(count).plot
     shape(count).plot_box
 end
 input('continue? ');
 
-%% Homography
-
-%blue circles
-bt = min(bb.vc);
-br = max(bb.uc);
-bbot = max(bb.vc);
-bl = min(bb.uc);
-
-bsize = bb.area_;
-bigbindex = find(bsize == max(bsize));
-bigbu = bb(bigbindex).uc;
-bigbv = bb(bigbindex).vc;
-
-PB = double([bl bt; br bt; br bbot; bl bbot]');   %bigbu bigbv;
-
-QB = double([20 20; 20 380; 380 380; 380 20]');
-
-%QB = [20 20;200 20;380 20;20 200;200 200;380 200;20 380;200 380;380 380]';
-H = homography(PB,QB);
-% P1 = [100 100;200 200;300 300;400 400]';
-% Q1 = P1*2;
-% H = homography(P1,Q1)
-
-clear location
-
-for i = 1:3
-    centroid(:,i) = [shape(i).uc; shape(i).vc];
-end
-
-for i = 1:3
-    location{i} = homtrans(H, centroid(:,i));
-end
-
-H
-location1 = location{1}/10-20
-location2 = location{2}/10-20
-location3 = location{3}/10-20
-
-a = [location1'; location2'; location3';];
-
-%algorithm3_2
