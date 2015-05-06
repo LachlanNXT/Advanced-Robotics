@@ -2,9 +2,9 @@
 %Lachlan Robinson
 %function roboSim()
 
-    clear
+    %clear
     close all
-    landMarks = setupPlot(3);
+    %landMarks = setupPlot(3);
     
     %load landMarks;
     nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
@@ -71,9 +71,9 @@
         nPos(2) = nPos(2)+ydot+Vydot;
         nPhi = nPhi+phidot+Vphidot;
         
-        phiDiff = nPhi - phi;
+        %phiDiff = nPhi - phi;
         
-        phiDiffVec = [phiDiffVec; phiDiff];
+        %phiDiffVec = [phiDiffVec; phiDiff];
         
         %figure(fig2)
         %plot(phiDiffVec)
@@ -97,28 +97,34 @@
         
         nDist = sqrt(nxD^2 + nyD^2);
         
-        phiAngle = mod(phi,2*pi);
-        if (phiAngle > pi)
-            phiAngle = phiAngle - 2*pi;
-        end
+%         phiAngle = mod(phi,2*pi);
+%         if (phiAngle > pi)
+%             phiAngle = phiAngle - 2*pi;
+%         end
+%         
+        theta = atan2(yD,xD) + pi/2; % - phiAngle;
         
-        theta = atan2(yD,xD) - phiAngle;
-        
-        nTheta = atan2(nyD,nxD) - phiAngle;
+        nTheta = atan2(nyD,nxD) +pi/2; % - phiAngle;
         
         max = pi/6;
         min = -pi/6;
 
         if ((theta < max && theta > max-pi/3) || (theta > min && theta < min+pi/3))
-        %if (abs(theta<pi/6));
-        seen(mark) = dist;
         
-        %pause(0.000000000001)
-     
+        seen(mark) = dist;
+        if (mark == 1)
+        test = [atan2(yD,xD)*180/pi, theta*180/pi, phi*180/pi]
+        pause(0.1)
+        end
+        
         update
         
         else
         seen(mark) = 0;
+        if (mark == 1)
+        test = [atan2(yD,xD)*180/pi, theta*180/pi, phi*180/pi]
+        pause(0.1)
+        end
         end
         
     end
@@ -129,10 +135,10 @@
     botY = [pos(2)+sin(pi/2-phi)*wheelBase, pos(2)-sin(pi/2-phi)*wheelBase];
     triangleX = [pos(1), pos(1)+cos(phi)*botLength];
     triangleY = [pos(2), pos(2)+sin(phi)*botLength];
-    sightLX = [pos(1), pos(1)+cos(phi+pi/6)*2];
-    sightLY = [pos(2), pos(2)+sin(phi+pi/6)*2];
-    sightRX = [pos(1), pos(1)+cos(phi-pi/6)*2];
-    sightRY = [pos(2), pos(2)+sin(phi-pi/6)*2];
+    sightLX = [pos(1), pos(1)+cos(phi+pi/6)*15];
+    sightLY = [pos(2), pos(2)+sin(phi+pi/6)*15];
+    sightRX = [pos(1), pos(1)+cos(phi-pi/6)*15];
+    sightRY = [pos(2), pos(2)+sin(phi-pi/6)*15];
     
     %botPlot
     botPlot

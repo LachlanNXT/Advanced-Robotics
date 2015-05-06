@@ -71,9 +71,9 @@
         nPos(2) = nPos(2)+ydot+Vydot;
         nPhi = nPhi+phidot+Vphidot;
         
-        phiDiff = nPhi - phi;
+        %phiDiff = nPhi - phi;
         
-        phiDiffVec = [phiDiffVec; phiDiff];
+        %phiDiffVec = [phiDiffVec; phiDiff];
         
         %figure(fig2)
         %plot(phiDiffVec)
@@ -95,11 +95,16 @@
         
         dist = sqrt(xD^2 + yD^2);
         
-        theta = atan2(yD,xD) - mod(phi,2*pi);
-        %theta = theta2;%atan2(yD,xD) - mod(phi,2*pi)
-        
         nDist = sqrt(nxD^2 + nyD^2);
-        nTheta = atan2(nyD,nxD) - mod(phi,2*pi);
+        
+        phiAngle = mod(phi,2*pi);
+        if (phiAngle > pi)
+            phiAngle = phiAngle - 2*pi;
+        end
+        
+        theta = atan2(yD,xD) - phiAngle;
+        
+        nTheta = atan2(nyD,nxD) - phiAngle;
         
         max = pi/6;
         min = -pi/6;
@@ -108,10 +113,12 @@
         %if (abs(theta<pi/6));
         seen(mark) = dist;
         
+        %pause(0.000000000001)
+     
         update
         
         else
-        seen(mark) = 0;
+        seen(mark) = 0
         end
         
     end
