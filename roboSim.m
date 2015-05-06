@@ -11,7 +11,7 @@
     fig1 = figure(1);
     %fig2 = figure(2);
     %fig3 = figure(3);
-    diff = [0;0;0];
+    %diff = [0;0;0];
     figure(fig1);
     pause(1)
     figure(fig1);
@@ -23,13 +23,14 @@
     nPos = pos;
     posVec = pos;
     nPosVec = pos;
-    phiDiffVec = 0;
+    %phiDiffVec = 0;
     phi = pi/2;
     nPhi = phi;
     timestep = 0.1;
     %W = [0.01 0; 0 0.01];
     %V = W*timestep;
-    P_cov = [0.01, 0, 0; 0, 0.01, 0; 0, 0, pi/180];
+    load covar_mat
+    %P_cov = [0.01, 0, 0; 0, 0.01, 0; 0, 0, pi/180];
 %     omegaVec = -1 + (1-(-1)).*rand(1,5);
 %     vVec = rand(1,5);
 %     steps = randi([0 150],1,5);
@@ -37,6 +38,7 @@
     vVec = .5;
     omegaVec = -.125;
     steps = 9999;
+    std_dev = 0.2;
     %load runParameters
     wheelBase = 0.1;
     botLength = 0.2;
@@ -54,7 +56,7 @@
     for curve = 1:length(vVec)
         display(curve);
         omega = omegaVec(curve); v = vVec(curve);
-        V = diag([(v*timestep*0.2)^2, (omega*timestep*0.2)^2]);
+        V = diag([(v*timestep*std_dev)^2, (omega*timestep*std_dev)^2]);
     for interval = 0:steps(curve)
         %derivatives
         xdot = v * cos(phi)*timestep;
@@ -66,7 +68,7 @@
         pos(2) = pos(2)+ydot;
         phi = phi+phidot;
         %prediction with noise - encoder position
-        Vxdot = (xdot*(.2.*randn)); Vydot = (ydot*(.2.*randn)); Vphidot = (phidot*(.2.*randn));
+        Vxdot = (xdot*(std_dev.*randn)); Vydot = (ydot*(std_dev.*randn)); Vphidot = (phidot*(std_dev.*randn));
         nPos(1) = nPos(1)+xdot+Vxdot;
         nPos(2) = nPos(2)+ydot+Vydot;
         nPhi = nPhi+phidot+Vphidot;
@@ -98,32 +100,37 @@
         nDist = sqrt(nxD^2 + nyD^2);
         
         phiAngle = mod(phi,2*pi);
-%         if (phiAngle > pi)
-%             phiAngle = phiAngle - 2*pi;
-%         end
-%         
-        theta = mod(atan2(yD,xD), 2*pi) - phiAngle;
+        if (phiAngle > pi)
+            phiAngle = phiAngle - 2*pi;
+        end
         
-        nTheta = mod(atan2(nyD,nxD), 2*pi) - phiAngle;
+        theta = atan2(yD,xD) - phiAngle;
+        theta = mod(theta, 2*pi);
+        if (theta>pi) theta = theta - 2*pi; end;
+                    
+        nTheta = atan2(nyD,nxD) - phiAngle;
+        nTheta = mod(nTheta, 2*pi);
+        if (nTheta>pi) nTheta = nTheta - 2*pi; end;
+        
         
         max = pi/6;
         min = -pi/6;
 
         if ((theta < max && theta > max-pi/3) || (theta > min && theta < min+pi/3))
         
-        seen(mark) = dist;
+        seen(mark) = dist
         if (mark == 1)
-        test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
-        pause(0.1)
+        %test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
+        %pause(0.1)
         end
         
         update
         
         else
-        seen(mark) = 0;
+        seen(mark) = 0
         if (mark == 1)
-        test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
-        pause(0.1)
+        %test = [atan2(yD,xD)*180/pi, theta*180/pi, phiAngle*180/pi]
+        %pause(0.1)
         end
         end
         
