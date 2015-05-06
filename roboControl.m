@@ -13,3 +13,13 @@ pb = PiBot(IP);
 img = pb.getImageFromCamera();
 imshow(img)
 
+% motors= ['A' 'B'];
+% speeds = [30,30]; % negative for reverse
+% pb.setMotorSpeeds(motors,speeds);
+% pause(1);
+
+while(1)
+
+roboVision
+
+end
