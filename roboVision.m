@@ -8,35 +8,17 @@ silent = 0;
 
 im = img; s = size(img);
 
-if prod(s(1:2))>1.7e6
-    im = iscale(im,.2);
-end
-
 imshow(im)
 
-fObject = [0, 0, 0];
-fsizes = {};
-for i = 1:3
-
-disp('1 2 3 4 5 6 rT rS rC gT gS gC');
-
-fObject(i) = input('Input selection here: ');
-
-fsizes{i} = input('Input sizes here: ', 's');
-
-end
 %im = igamma(im,0.45);
+
+%separate out RGB colours
 red = double(im(:,:,1));
 green = double(im(:,:,2));
 blue = double(im(:,:,3));
 if ~silent
 imshow(im)
-% figure
-% imshow(red)
-% figure
-% imshow(green)
-% figure
-% imshow(blue)
+
 input('continue? ')
 end
 
@@ -168,21 +150,21 @@ gCircles = [];
 [rTriangles, rSquares, rCircles] = shapeTest(rb, rTriangles, rSquares, rCircles);
 [gTriangles, gSquares, gCircles] = shapeTest(gb, gTriangles, gSquares, gCircles);
 
-rb(rTriangles).plot_box('red');
-gb(gTriangles).plot_box('red');
+%rb(rTriangles).plot_box('red');
+%gb(gTriangles).plot_box('red');
 
 % 
-% rb(rSquares).plot_box('red');
+ rb(rSquares).plot_box('red');
 % gb(gSquares).plot_box('red');
 
 
-input('Red on triangles - continue? ')
+input('Red on squares - continue? ')
 
 imshow(tos);
 osb.plot;
-gb.plot_box('blue');
+%gb.plot_box('blue');
 
-input('Blue on greens - continue? ')
+input('continue? ')
 
 %% Shapes from list
 
@@ -232,10 +214,10 @@ ucent(3) = allShapes{fObject(3)}(theShape(3)).uc;
 vcent(3) = allShapes{fObject(3)}(theShape(3)).vc;
 
 ruCent = rb.uc; rvCent = rb.vc;
-guCent = gb.uc; gvCent = gb.vc;
+%guCent = gb.uc; gvCent = gb.vc;
 
 rLuCent = rLb.uc; rLvCent = rLb.vc;
-gLuCent = gLb.uc; gLvCent = gLb.vc;
+%gLuCent = gLb.uc; gLvCent = gLb.vc;
 
 RoG = [0, 0, 0];
 RG = {rL, gL};

@@ -4,7 +4,7 @@
 
     %clear
     close all
-    landMarks = setupPlot(3);
+    landMarks = setupPlot(1);
     
     load landMarks;
     nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
