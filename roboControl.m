@@ -20,6 +20,6 @@ imshow(img)
 
 while(1)
 
-roboVision
+lmNumber = roboVision(img)
 
 end

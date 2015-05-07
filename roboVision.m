@@ -1,6 +1,8 @@
 %Vision System
 %Lachlan Robinson
 
+function lmNumber = roboVision(img)
+
 warning off;
 set(0,'DefaultFigureWindowStyle','docked');
 silent = 1;
@@ -28,8 +30,8 @@ lmPos = [0 0;%1
      0.71 0.83;%10
      ];
  
- cameraHeight = 640;
- cameraWidth = 480;
+ cameraHeight = 320;
+ cameraWidth = 240;
  pixelSize = 1.4*10^-9;
  focalLength = 3.6*10^-3;
     
@@ -47,7 +49,7 @@ lmPos = [0 0;%1
 %% Aquire Images
 
 im = img; s = size(img);
-
+im = im.^1.1;
 imshow(im)
 
 %im = igamma(im,0.45);
@@ -86,7 +88,7 @@ fullsize = a(1)*a(2);
 pcent = 95;
 pctile = round((pcent/100)*fullsize);
 tr = sr(pctile);
-tg = sg(round(.7*fullsize));
+tg = sg(round(.55*fullsize));
 tb = sb(pctile);
 
 tred = r>=tr; tgreen = g>=tg; tblue = b>=tb;
@@ -129,12 +131,12 @@ end
 blobLimit = 600;
 blobUpper = 4500;
 
-rb = iblobs(tred,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary');
-gb = iblobs(tgreen,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary');
-bb = iblobs(tblue,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary');
+rb = iblobs(tred,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary','touch',0);
+gb = iblobs(tgreen,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary','touch',0);
+bb = iblobs(tblue,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary','touch',0);
 
 if (length(bb) + length(gb) + length(rb) < 3)
-    break;
+    return;
 end
 if length(gb)>2
     gb = gb(1:2);
@@ -173,40 +175,40 @@ end
 fail = 0;
 
 if (max(size(bb)) ~= 0)
-for i = 1:max(size(bb))
-    if (bb(i).class == 1)
-        bb(i).plot_box('blue')
-        bb(i).plot
-    end
-end
+% for i = 1:max(size(bb))
+%     if (bb(i).class == 1)
+%         bb(i).plot_box('blue')
+%         bb(i).plot
+%     end
+% end
 else
     fail = 1;
 end
 
 if (max(size(rb)) ~= 0)
-    for i = 1:max(size(rb))
-    if (rb(i).class == 1)
-        rb(i).plot_box('red')
-        rb(i).plot
-    end
-    end 
+%     for i = 1:max(size(rb))
+%     if (rb(i).class == 1)
+%         rb(i).plot_box('red')
+%         rb(i).plot
+%     end
+%     end 
 else
     fail = fail+1;
 end
 
 if (max(size(gb)) ~= 0)
-    for i = 1:max(size(gb))
-    if (gb(i).class == 1)
-        gb(i).plot_box('green')
-        gb(i).plot
-    end
-    end
+%     for i = 1:max(size(gb))
+%     if (gb(i).class == 1)
+%         gb(i).plot_box('green')
+%         gb(i).plot
+%     end
+%     end
 else
     fail = fail+1;
 end
 
 if fail == 3
-    break;
+    return;
 end
 
 if ~silent
@@ -232,15 +234,15 @@ bCircles = [];
 [bTriangles, bSquares, bCircles] = shapeTest(bb, bTriangles, bSquares, bCircles);
 
 
-if (max(rSquares) ~= 0)
+if (~isempty(rSquares))
 rb(rSquares).plot_box('red');
 end
 
-if (max(bSquares) ~= 0)
+if (~isempty(bSquares))
 bb(bSquares).plot_box('blue');
 end
 
-if (max(gSquares) ~= 0)
+if (~isempty(gSquares))
 gb(gSquares).plot_box('green');
 end
 
@@ -252,7 +254,7 @@ end
 clear Stripes
 clear ucent
 clear vcent
-allShapes = {rb, gb, bb};
+allShapes = {rb(rSquares), gb(gSquares), bb(bSquares)};
 index = 1;
 for i = 1:3
     for j = 1:length(allShapes{i})
@@ -265,11 +267,11 @@ for i = 1:3
     end
 end
 
-if (max(vcent)> (cameraHeight / 2))
-   break; 
+if (max(vcent) > (cameraHeight / 2))
+   return; 
 end
-if (min(vcent)< (cameraHeight /20))
-   break;
+if (min(vcent) < (cameraHeight /20))
+   return;
 end
 
 vcent2 = sort(vcent);
@@ -285,16 +287,16 @@ for i = 1:length(lmColours)
     temp = (lmColours(i,:) == Stripes);
     if (sum(temp) == 3)
         lmNumber = i;
-        break
+        return;
     end
 end
 
 
 disp(lmNumber)
-    
+return;
 
 
-
+end
 
 
 
