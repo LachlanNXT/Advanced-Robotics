@@ -8,12 +8,12 @@ for i = 1:max(size(theBlobs))
         circles(ci) = i;
         ci=ci+1;
     end
-    if ((theBlobs(i).circularity < 0.85) .* (theBlobs(i).circularity >= 0.6))
+    if ((theBlobs(i).circularity < 0.85) .* (theBlobs(i).circularity >= 0.3))
         %theBlobs(i).plot_box('red')
         squares(si) = i;
         si = si+1;
     end
-    if (theBlobs(i).circularity < 0.6)
+    if (theBlobs(i).circularity < 0.3)
         %theBlobs(i).plot_box('green')
         triangles(ti) = i;
         ti = ti+1;

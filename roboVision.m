@@ -1,8 +1,6 @@
 %Vision System
 %Lachlan Robinson
 
-function lmNumber = roboVision(img)
-
 warning off;
 set(0,'DefaultFigureWindowStyle','docked');
 silent = 1;
@@ -32,8 +30,10 @@ lmPos = [0 0;%1
  
  cameraHeight = 320;
  cameraWidth = 240;
- pixelSize = 1.4*10^-9;
+ pixelSize = 1.4*10^-6;
  focalLength = 3.6*10^-3;
+ 
+ TapeHeight = 10*10^-2;
     
 % 
 % 2 ( GBR) x=1.24 y =1.76
@@ -87,9 +87,9 @@ a = size(r);
 fullsize = a(1)*a(2);
 pcent = 95;
 pctile = round((pcent/100)*fullsize);
-tr = sr(pctile);
-tg = sg(round(.55*fullsize));
-tb = sb(pctile);
+tr = .65; %sr(pctile);
+tg = .55; %sg(round(.55*fullsize));
+tb = .40; %sb(pctile);
 
 tred = r>=tr; tgreen = g>=tg; tblue = b>=tb;
 if ~silent
@@ -128,7 +128,7 @@ input('continue? ')
 end
 
 %% Blobs
-blobLimit = 600;
+blobLimit = 800;
 blobUpper = 4500;
 
 rb = iblobs(tred,'area',[blobLimit,blobUpper],'class',1,'greyscale','boundary','touch',0);
@@ -255,6 +255,10 @@ clear Stripes
 clear ucent
 clear vcent
 allShapes = {rb(rSquares), gb(gSquares), bb(bSquares)};
+check = length(rb(rSquares)) + length(gb(gSquares)) + length(bb(bSquares));
+if check>3
+    return
+end
 index = 1;
 for i = 1:3
     for j = 1:length(allShapes{i})
@@ -282,23 +286,26 @@ end
 Stripes = Stripes(order);
 
 %%
+lmNumber = 0;
 
 for i = 1:length(lmColours)
     temp = (lmColours(i,:) == Stripes);
     if (sum(temp) == 3)
         lmNumber = i;
-        return;
     end
 end
 
+%disp(lmNumber)
 
-disp(lmNumber)
-return;
+pixelHeight = max(vcent)-min(vcent);
 
+Z = (8*10^-2*focalLength)/(pixelHeight*pixelSize)/10;
 
-end
+X = (median(ucent) - cameraWidth/2)*pixelSize*Z/(focalLength)*10;
 
+Bearing = atan2(X,Z);
 
+disp([lmNumber sqrt(Z^2 + X^2) Bearing*180/pi]);
 
 
 
