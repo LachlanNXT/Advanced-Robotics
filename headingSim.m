@@ -9,3 +9,5 @@ function headingVec = headingSim(pos, desiredHeading, desiredSpeed)
     end
     plot(headingVec(1,:),headingVec(2,:));
 end
+
+%here is a new line
