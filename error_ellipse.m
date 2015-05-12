@@ -58,7 +58,7 @@ if length(varargin) >= 1 & ~ischar(varargin{1})
   error('Invalid parameter/value pair arguments.') 
 end
 
-prop = getopt(default_properties, varargin{:});
+prop = getopt(default_properties, varargin{:}); 
 C = prop.C;
 
 if isempty(prop.mu)
