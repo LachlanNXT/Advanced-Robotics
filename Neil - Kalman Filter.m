@@ -99,7 +99,7 @@ while (finished == 0)
         if (rAngle > 0 && rAngle < pi/12) || (rAngle > 23*pi/12 && rAngle <2*pi)
             % innovation jacobians
             Hx = [-((R_P(ii,1) - robot_new(X))/rDistance), -((R_P(ii,2) - robot_new(Y))/rDistance), 0;
-                ((R_P(ii,1) - robot_new(Y))/rDistance^2), -((R_P(ii,2) - robot_new(X))/rDistance^2), -1];
+                ((R_P(ii,2) - robot_new(Y))/rDistance^2), -((R_P(ii,1) - robot_new(X))/rDistance^2), -1];
             Hw = [1, 0; 0, 1];
             % update predicted state. kalman gain
             S = Hx * Pj * transpose(Hx) + Hw * covS * transpose(Hw);
