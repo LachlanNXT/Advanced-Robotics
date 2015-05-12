@@ -22,4 +22,6 @@ while(testing)
         pb.setMotorSpeeds('b',100)
     end 
     imshow(img2);
+    
+    
 end 
