@@ -21,7 +21,7 @@ imshow(img)
 while(1)
 
 img = pb.getImageFromCamera();
-    
+
 roboVision
 
 pause(3)
