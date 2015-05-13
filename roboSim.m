@@ -4,8 +4,9 @@
 
     %clear
     close all
-    landMarks = setupPlot(4);
-    
+    %landMarks = setupPlot(4);
+    landMarks = [5;9];
+    save landMarks
     load landMarks;
     nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
     fig1 = figure(1);
@@ -124,7 +125,7 @@
         %pause(0.1)
         end
         
-        update
+        updatee
         
         else
         seen(mark) = 0
