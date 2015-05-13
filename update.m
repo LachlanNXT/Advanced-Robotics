@@ -1,14 +1,14 @@
 %update
 
 %measurement noise
-sigr = (std_dev*randn); sigb = (std_dev*randn);
+sigr = (std_dev/10*randn); sigb = (std_dev/10*randn);
 %measurement estimation, range and bearing angle
 z = [dist+sigr; theta+sigb];
-h = [nDist; nTheta];
+h = [nDist+sigr; nTheta+sigb];
 %innovation
 vErr = z - h;
 %estimated covariance of sensor noise
-W = [std_dev^2, 0; 0, std_dev^2];
+W = [(std_dev/10)^2, 0; 0, (std_dev/10)^2];
 
 %jacobians
 r = dist;

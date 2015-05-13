@@ -1,15 +1,18 @@
 %Differential Simulation
 %Lachlan Robinson
 %function roboSim()
-
+% 
+% %disp('Motor A and B at -50,-50 speeds')
+% motors= ['A' 'B'];
+% speeds = [-50,-50]; % negative for reverse
+% pb.setMotorSpeeds(motors,speeds);
+% pause(1);
+%ticks = pb.getMotorTicks(); disp(ticks)
     %clear
     close all
-    %landMarks = setupPlot(1);
-    landMarks = [1;1];
-    save landMarks;
+    
     load landMarks;
-    landMarks = landMarks(:,1);
-    nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
+    nLandMarks = 10;
     FigHandle = figure('Position', [50, 50, 1300, 500]);
     fig1 = subplot(1,3,1);
     title('Simulation');

@@ -7,7 +7,7 @@ function landMarks = setupPlot(num)
     for i = 1:num
         landMarks(:,i) = 10*rand(2,1);
     end
-    plot(landMarks(1,:),landMarks(2,:),'ro')
+    %plot(landMarks(1,:),landMarks(2,:),'ro')
     hold on
     save landMarks
     %pause(5)

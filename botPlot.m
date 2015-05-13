@@ -18,4 +18,5 @@
     plot(posVec(1,:),posVec(2,:));
     plot(nPosVec(1,:),nPosVec(2,:), 'r');
     error_ellipse(P_cov(1:2,1:2), [nPos(1); nPos(2)])
+    title('Simulation');
     hold off
