@@ -5,7 +5,7 @@
     %clear
     close all
     %landMarks = setupPlot(1);
-    landMarks = [1;1];
+    landMarks = [9;9];
     save landMarks;
     load landMarks;
     landMarks = landMarks(:,1);
@@ -34,7 +34,7 @@
     thetaVec = 0;
     nphiVec = 0;
     nthetaVec = 0;
-    phi = -pi/2;
+    phi = pi/2;
     nPhi = phi;
     timestep = 0.1;
     %W = [0.01 0; 0 0.01];
@@ -46,7 +46,7 @@
 %     steps = randi([0 150],1,5);
 %    save('runParameters1', 'omegaVec', 'vVec', 'steps');
     vVec = .5;
-    omegaVec = .125;
+    omegaVec = -.125;
     steps = 9999;
     std_dev = 0.2;
     %load runParameters
@@ -155,7 +155,7 @@
         %pause(0.1)
         end
         
-        update
+        updatee
         
         else
         seen(mark) = 0
