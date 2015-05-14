@@ -3,6 +3,7 @@
 
 %% setup
 close all; clear all; clc;
+%startup_rvc
 lmNumber = 0;
 % Connect to the Rasp Pi
 % Get you Pi's IP (type hostname -I into Pi terminal)

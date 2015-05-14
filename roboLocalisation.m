@@ -8,6 +8,7 @@
 % pb.setMotorSpeeds(motors,speeds);
 % pause(1);
 %ticks = pb.getMotorTicks(); disp(ticks)
+%Right Motor is ticks(1)
     %clear
     close all
     
