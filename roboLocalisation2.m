@@ -1,55 +1,57 @@
-%Differential Simulation
-%Lachlan Robinson
-%function roboSim()
-% 
+% Differential Simulation
+% Lachlan Robinson
+% function roboSim()
+
+
 % %disp('Motor A and B at -50,-50 speeds')
 % motors= ['A' 'B'];
 % speeds = [-50,-50]; % negative for reverse
 % pb.setMotorSpeeds(motors,speeds);
 % pause(1);
 %ticks = pb.getMotorTicks(); disp(ticks)
-%Right Motor is ticks(1)
+
+
     %clear
     close all
+    % Connect to the Rasp Pi
+    % Get you Pi's IP (type hostname -I into Pi terminal)
+    IP = '172.19.226.39'; %'172.19.226.67';IP = '172.19.226.67';
+    pb = PiBot(IP);
+
+    %% Get Image from Camera
+    img = pb.getImageFromCamera();
+    imshow(img)
+    
     
     load landMarks;
+    %landMarks = landMarks(:,1);
     nLandMarks = 10;
     FigHandle = figure('Position', [50, 50, 1300, 500]);
-    fig1 = subplot(1,3,1);
-    title('Simulation');
-    fig2 = subplot(1,3,2);
-    title('phi (blue) nPhi (red)');
-    fig3 = subplot(1,3,3);
-    title('theta (blue) nTheta (red)');
-    %diff = [0;0;0];
-    subplot(fig1);
+    
     pause(3)
 
     plot(landMarks(1,:),landMarks(2,:),'r*') 
     axis equal
-    axis([0,10,0,10]);
+    axis([0,2,0,2]);
     hold on
-    pos = [1;5];
-    nPos = pos;
+    pos = [0.3;0.3];
     posVec = pos;
-    nPosVec = pos;
-    %phiDiffVec = 0;
     phiVec = 0;
     thetaVec = 0;
-    nphiVec = 0;
-    nthetaVec = 0;
-    phi = -pi/2;
-    nPhi = phi;
-    timestep = 0.1;
-    %W = [0.01 0; 0 0.01];
-    %V = W*timestep;
+    phiaVec = 0;
+    nphiaVec = 0;
+    phi = pi/4;
+    
     load covar_mat
+    
     %P_cov = [0.01, 0, 0; 0, 0.01, 0; 0, 0, pi/180];
-%     omegaVec = -1 + (1-(-1)).*rand(1,5);
+
+    %     omegaVec = -1 + (1-(-1)).*rand(1,5);
 %     vVec = rand(1,5);
 %     steps = randi([0 150],1,5);
 %    save('runParameters1', 'omegaVec', 'vVec', 'steps');
-    vVec = .5;
+    
+vVec = .5;
     omegaVec = .125;
     steps = 9999;
     std_dev = 0.2;
@@ -132,10 +134,12 @@
         end
         
         theta = atan2(yD,xD) - phiAngle;
+        phiaVec = [phiaVec phiAngle];
         theta = mod(theta, 2*pi);
         if (theta>pi) theta = theta - 2*pi; end;
                     
         nTheta = atan2(nyD,nxD) - phiAngle;
+        nphiaVec = [nphiaVec nphiAngle];
         nTheta = mod(nTheta, 2*pi);
         if (nTheta>pi) nTheta = nTheta - 2*pi; end;
         
@@ -146,6 +150,11 @@
         hold on
         plot(nthetaVec,'r');
         title('theta (blue) nTheta (red)');
+        subplot(fig4)
+        plot(phiaVec, 'b')
+        hold on
+        plot(nphiaVec, 'r')
+        title('pniAngle (blue) nphiAngle (red)')
         subplot(fig1)
         
         max = pi/6;
@@ -159,7 +168,7 @@
         %pause(0.1)
         end
         
-        update
+        %updatee
         
         else
         seen(mark) = 0

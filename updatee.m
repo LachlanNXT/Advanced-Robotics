@@ -1,19 +1,19 @@
 %update
 
 %measurement noise
-sigr = (std_dev/10*randn); sigb = (std_dev/10*randn);
+sigr = (std_dev/100*randn); sigb = (std_dev/100*randn);
 %measurement estimation, range and bearing angle
 z = [dist+sigr; theta+sigb];
-h = [nDist+sigr; nTheta+sigb];
+h = [nDist; nTheta];
 %innovation
-vErr = z - h;
+vErr = (z - h);
 %estimated covariance of sensor noise
-W = [(std_dev/10)^2, 0; 0, (std_dev/10)^2];
+W = [(std_dev/100)^2, 0; 0, (std_dev/100)^2];
 
 %jacobians
-r = dist;
-Hx = [-(xD - pos(1))/r, -(yD - pos(2))/r, 0;
-    (yD - pos(2))/r^2, -(xD - pos(1))/r^2, -1];
+r = nDist;
+Hx = [-(landMarks(1,mark) - nPos(1))/r, -(landMarks(2,mark) - nPos(2))/r, 0;
+    (landMarks(2,mark) - nPos(2))/r^2, -(landMarks(1,mark) - nPos(1))/r^2, -1];
 Hw = eye(2);
 
 %used to calulate K
@@ -24,9 +24,13 @@ K = P_cov * Hx' * inv(S);
 
 %predicted state from odometry
 xHato = [nPos; nPhi];
+disp('xHato')
+disp([xHato(1:2); xHato(3)*180/pi])
 
 %update predicted state using new info
 xHat = xHato + K * vErr;
+disp('xHat')
+disp([xHat(1:2); xHat(3)*180/pi])
 
 %diff = [diff, (xHat - xHato)];
 %diff = sign(diff);
