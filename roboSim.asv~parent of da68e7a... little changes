@@ -4,20 +4,18 @@
 
     %clear
     close all
-    %landMarks = setupPlot(1);
-    landMarks = [9;9];
-    save landMarks;
+    %landMarks = setupPlot(4);
+    
     load landMarks;
     landMarks = landMarks(:,1);
     nLandMarks = size(landMarks); nLandMarks = nLandMarks(2);
-    FigHandle = figure('Position', [50, 50, 1300, 500]);
-    fig1 = subplot(1,4,1);
+    FigHandle = figure('Position', [0, 0, 1600, 500]);
+    fig1 = subplot(1,3,1);
     title('Simulation');
-    fig2 = subplot(1,4,2);
+    fig2 = subplot(1,3,2);
     title('phi (blue) nPhi (red)');
-    fig3 = subplot(1,4,3);
+    fig3 = subplot(1,3,3);
     title('theta (blue) nTheta (red)');
-    fig4 = subplot(1,4,4);
     %diff = [0;0;0];
     subplot(fig1);
     pause(3)
@@ -35,11 +33,9 @@
     thetaVec = 0;
     nphiVec = 0;
     nthetaVec = 0;
-    phiaVec = 0;
-    nphiaVec = 0;
-    phi = -pi/2;
+    phi = pi/2;
     nPhi = phi;
-    timestep = 0.2;
+    timestep = 0.1;
     %W = [0.01 0; 0 0.01];
     %V = W*timestep;
     load covar_mat
@@ -49,7 +45,7 @@
 %     steps = randi([0 150],1,5);
 %    save('runParameters1', 'omegaVec', 'vVec', 'steps');
     vVec = .5;
-    omegaVec = .125;
+    omegaVec = -.125;
     steps = 9999;
     std_dev = 0.2;
     %load runParameters
@@ -101,11 +97,9 @@
         phiVec = [phiVec phi];
         nphiVec = [nphiVec nPhi];
         subplot(fig2);
-        plot(phiVec*180/pi, 'b');
+        plot(phiVec, 'b');
         hold on
-        plot(nphiVec*180/pi,'r');
-        title('phi (blue) nPhi (red)');
-        grid on
+        plot(nphiVec,'r')
         subplot(fig1);
         %nPosVec = [nPosVec nPos];
         
@@ -132,29 +126,19 @@
         end
         
         theta = atan2(yD,xD) - phiAngle;
-        phiaVec = [phiaVec phiAngle];
         theta = mod(theta, 2*pi);
         if (theta>pi) theta = theta - 2*pi; end;
                     
         nTheta = atan2(nyD,nxD) - nphiAngle;
-        nphiaVec = [nphiaVec nphiAngle];
         nTheta = mod(nTheta, 2*pi);
         if (nTheta>pi) nTheta = nTheta - 2*pi; end;
         
         thetaVec = [thetaVec theta];
         nthetaVec = [nthetaVec nTheta];
         subplot(fig3)
-        plot(thetaVec*180/pi, 'b')
+        plot(thetaVec, 'b')
         hold on
-        plot(nthetaVec*180/pi,'r');
-        title('theta (blue) nTheta (red)');
-        grid on
-        subplot(fig4)
-        plot(phiaVec*180/pi, 'b')
-        hold on
-        plot(nphiaVec*180/pi, 'r')
-        title('pniAngle (blue) nphiAngle (red)')
-        grid on
+        plot(nthetaVec,'r');
         subplot(fig1)
         
         max = pi/6;
@@ -168,7 +152,7 @@
         %pause(0.1)
         end
         
-        updatee
+        update
         
         else
         seen(mark) = 0

@@ -2,12 +2,13 @@ close all; clear all; clc;
 
 %% Connect to the Rasp Pi
 % Get you Pi's IP (type hostname -I into Pi terminal)
-IP = '172.19.226.39';
+IP = '172.19.226.65';
 pb = PiBot(IP);
 
 %% Get Image from Camera
 img = pb.getImageFromCamera();
-%img2 = imread('Random_Feild_1.jpg');
+img = imrotate(img, -90);
+img2 = imread('Random_Feild_1.jpg');
 img = idouble(img);
 
 figure;
@@ -77,19 +78,19 @@ bluebinaryclean = iopen(bluebinary, ones(5,6));
 % red binary blobs
 figure;
 imshow(img)
-redblobs = iblobs(redbinaryclean, 'area', [50,2500], 'touch', 0);
+redblobs = iblobs(redbinaryclean, 'area', [50,1450], 'touch', 0);
 if numel(redblobs) > 0
     redblobs.plot_box('r')
     redblobs.plot('r*')
 end
 % green binary blobs
-greenblobs = iblobs(greenbinaryclean, 'area', [50,2500], 'touch', 0);
+greenblobs = iblobs(greenbinaryclean, 'area', [50,1450], 'touch', 0);
 if numel(greenblobs) > 0
     greenblobs.plot_box('g')
     greenblobs.plot('g*')
 end
 % blue binart blobs
-blueblobs = iblobs(bluebinaryclean, 'area', [50,2500], 'touch', 0);
+blueblobs = iblobs(bluebinaryclean, 'area', [50,1450], 'touch', 0);
 if numel(blueblobs) > 0
     blueblobs.plot_box('b')
     blueblobs.plot('b*')
@@ -131,7 +132,7 @@ for rr = 1:numel(redblobs),
         % all blue labels
         for bb = 1:numel(blueblobs),
             %different bands of image (split every 32 pixels)
-            for aa = [20:20:240]
+            for aa = [20:20:320]
                 % all colours in 1 band
                 if (aa-pp<redlabelx(rr) && redlabelx(rr)<aa && aa-pp<greenlabelx(gg) && greenlabelx(gg)<aa && aa-pp<bluelabelx(bb) && bluelabelx(bb)<aa)
                     % red/green/blue
@@ -140,13 +141,13 @@ for rr = 1:numel(redblobs),
                         distance_of_landmark = ratio/beacon_image_height;
                         disp('RGB = Marker 5')
                         disp(distance_of_landmark)
-                        if greenlabelx(gg) > 120
-                            angle = (greenlabelx(gg)-120)*60/240;
+                        if greenlabelx(gg) > 160
+                            angle = (greenlabelx(gg)-160)*60/320;
                             disp('angle')
                             disp(angle)
                         end
-                        if greenlabelx(gg) < 120
-                            angle = (120-greenlabelx(gg))*60/240;
+                        if greenlabelx(gg) < 160
+                            angle = (160-greenlabelx(gg))*60/320;
                             disp('angle')
                             disp(-angle)
                         end
@@ -157,13 +158,13 @@ for rr = 1:numel(redblobs),
                         distance_of_landmark = ratio/beacon_image_height;
                         disp('BGR = Marker 9')
                         disp(distance_of_landmark)
-                        if greenlabelx(gg) > 120
-                            angle = (greenlabelx(gg)-120)*60/240;
+                        if greenlabelx(gg) > 160
+                            angle = (greenlabelx(gg)-160)*60/320;
                             disp('angle')
                             disp(angle)
                         end
-                        if greenlabelx(gg) < 120
-                            angle = (120-greenlabelx(gg))*60/240;
+                        if greenlabelx(gg) < 160
+                            angle = (160-greenlabelx(gg))*60/320;
                             disp('angle')
                             disp(-angle)
                         end
@@ -174,13 +175,13 @@ for rr = 1:numel(redblobs),
                         distance_of_landmark = ratio/beacon_image_height;
                         disp('BRG = Marker 8')
                         disp(distance_of_landmark)
-                        if redlabelx(rr) > 120
-                            angle = (redlabelx(rr)-120)*60/240;
+                        if redlabelx(rr) > 160
+                            angle = (redlabelx(rr)-160)*60/320;
                             disp('angle')
                             disp(angle)
                         end
-                        if redlabelx(rr) < 120
-                            angle = (120-redlabelx(rr))*60/240;
+                        if redlabelx(rr) < 160
+                            angle = (160-redlabelx(rr))*60/320;
                             disp('angle')
                             disp(-angle)
                         end
@@ -191,13 +192,13 @@ for rr = 1:numel(redblobs),
                         distance_of_landmark = ratio/beacon_image_height;
                         disp('GBR = Marker 2')
                         disp(distance_of_landmark)
-                        if bluelabelx(bb) > 120
-                            angle = (bluelabelx(bb)-120)*60/240;
+                        if bluelabelx(bb) > 160
+                            angle = (bluelabelx(bb)-160)*60/320;
                             disp('angle')
                             disp(angle)
                         end
-                        if bluelabelx(bb) < 120
-                            angle = (120-bluelabelx(bb))*60/240;
+                        if bluelabelx(bb) < 160
+                            angle = (160-bluelabelx(bb))*60/320;
                             disp('angle')
                             disp(-angle)
                         end
@@ -214,7 +215,7 @@ for rr = 1:numel(redblobs),
     % all blue labels
     for bb = 1:numel(blueblobs),
         % different bands of image (split every 32 pixels)
-        for aa = [20:20:240]
+        for aa = [20:20:320]
             % take a second red band
             for rrr = 1:numel(redblobs),
                 if (rr~=rrr)
@@ -225,13 +226,13 @@ for rr = 1:numel(redblobs),
                             distance_of_landmark = ratio/beacon_image_height;
                             disp('RBR = Marker 7')
                             disp(distance_of_landmark)
-                            if bluelabelx(bb) > 120
-                                angle = (bluelabelx(bb)-120)*60/240;
+                            if bluelabelx(bb) > 160
+                                angle = (bluelabelx(bb)-160)*60/320;
                                 disp('angle')
                                 disp(angle)
                             end
-                            if bluelabelx(bb) < 120
-                                angle = (120-bluelabelx(bb))*60/240;
+                            if bluelabelx(bb) < 160
+                                angle = (160-bluelabelx(bb))*60/320;
                                 disp('angle')
                                 disp(-angle)
                             end
@@ -249,13 +250,13 @@ for rr = 1:numel(redblobs),
                             distance_of_landmark = ratio/beacon_image_height;
                             disp('BRB = Marker 4')
                             disp(distance_of_landmark)
-                            if redlabelx(rr) > 120
-                                angle = (redlabelx(rr)-120)*60/240;
+                            if redlabelx(rr) > 160
+                                angle = (redlabelx(rr)-160)*60/320;
                                 disp('angle')
                                 disp(angle)
                             end
-                            if redlabelx(rr) < 120
-                                angle = (120-redlabelx(rr))*60/240;
+                            if redlabelx(rr) < 160
+                                angle = (160-redlabelx(rr))*60/320;
                                 disp('angle')
                                 disp(-angle)
                             end
@@ -268,7 +269,7 @@ for rr = 1:numel(redblobs),
     % all green labels
     for gg = 1:numel(greenblobs),
         %different bands of image (split every 32 pixels)
-        for aa = [20:20:240]
+        for aa = [20:20:320]
             % take a second red band
             for rrr = 1:numel(redblobs),
                 if (rr~=rrr)
@@ -279,13 +280,13 @@ for rr = 1:numel(redblobs),
                             distance_of_landmark = ratio/beacon_image_height;
                             disp('RGR = Marker 3')
                             disp(distance_of_landmark)
-                            if greenlabelx(gg) > 120
-                                angle = (greenlabelx(gg)-120)*60/240;
+                            if greenlabelx(gg) > 160
+                                angle = (greenlabelx(gg)-160)*60/320;
                                 disp('angle')
                                 disp(angle)
                             end
-                            if greenlabelx(gg) < 120
-                                angle = (120-greenlabelx(gg))*60/240;
+                            if greenlabelx(gg) < 160
+                                angle = (160-greenlabelx(gg))*60/320;
                                 disp('angle')
                                 disp(-angle)
                             end
@@ -301,7 +302,7 @@ for gg = 1:numel(greenblobs),
     % all blue labels
     for bb = 1:numel(blueblobs),
         %different bands of image (split every 32 pixels)
-        for aa = [20:20:240]
+        for aa = [20:20:320]
             % take a second green band
             for ggg = 1:numel(greenblobs),
                 if (gg~=ggg)
@@ -312,13 +313,13 @@ for gg = 1:numel(greenblobs),
                             distance_of_landmark = ratio/beacon_image_height;
                             disp('GBG = Marker 10')
                             disp(distance_of_landmark)
-                            if bluelabelx(bb) > 120
-                                angle = (bluelabelx(bb)-120)*60/240;
+                            if bluelabelx(bb) > 160
+                                angle = (bluelabelx(bb)-160)*60/320;
                                 disp('angle')
                                 disp(angle)
                             end
-                            if bluelabelx(bb) < 120
-                                angle = (120-bluelabelx(bb))*60/240;
+                            if bluelabelx(bb) < 160
+                                angle = (160-bluelabelx(bb))*60/320;
                                 disp('angle')
                                 disp(-angle)
                             end
@@ -336,13 +337,13 @@ for gg = 1:numel(greenblobs),
                             distance_of_landmark = ratio/beacon_image_height;
                             disp('BGB = Marker 6')
                             disp(distance_of_landmark)
-                            if greenlabelx(gg) > 120
-                                angle = (greenlabelx(gg)-120)*60/240;
+                            if greenlabelx(gg) > 160
+                                angle = (greenlabelx(gg)-160)*60/320;
                                 disp('angle')
                                 disp(angle)
                             end
-                            if greenlabelx(gg) < 120
-                                angle = (120-greenlabelx(gg))*60/240;
+                            if greenlabelx(gg) < 160
+                                angle = (160-greenlabelx(gg))*60/320;
                                 disp('angle')
                                 disp(-angle)
                             end

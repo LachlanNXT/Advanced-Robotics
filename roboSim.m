@@ -6,10 +6,14 @@
     close all
     %landMarks = setupPlot(1);
 <<<<<<< HEAD
+<<<<<<< HEAD
     landMarks = [9;9];
 =======
     landMarks = [9,9,1,1;9,1,9,1];
 >>>>>>> origin/master
+=======
+    landMarks = [1;1];
+>>>>>>> parent of da68e7a... little changes
     save landMarks;
     load landMarks;
     %landMarks = landMarks(:,1);
@@ -40,12 +44,16 @@
     nphiVec = 0;
     nthetaVec = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
     phi = pi/2;
 =======
     phiaVec = 0;
     nphiaVec = 0;
     phi = -pi/2;
 >>>>>>> origin/master
+=======
+    phi = -pi/2;
+>>>>>>> parent of da68e7a... little changes
     nPhi = phi;
     timestep = 0.2;
     %W = [0.01 0; 0 0.01];
@@ -57,7 +65,7 @@
 %     steps = randi([0 150],1,5);
 %    save('runParameters1', 'omegaVec', 'vVec', 'steps');
     vVec = .5;
-    omegaVec = -.125;
+    omegaVec = .125;
     steps = 9999;
     std_dev = 0.4;
     %load runParameters
@@ -181,7 +189,7 @@
         %pause(0.1)
         end
         
-        updatee
+        update
         
         else
         seen(mark) = 0;
