@@ -20,12 +20,6 @@ beacon_height = 100;
 sensor_height = 2.74;
 image_height = 320;
 
-% known values of the field/robot
-FIELD_SIZE_X = 2.0;
-FIELD_SIZE_Y = 2.0;
-SPos = [0.3; 0.3];          %starting position of the robot
-ROBOT_RADIUS = 0.118 / 2.0;
-
 
 % set-up markers
 landmark_RADIUS = 0.025;

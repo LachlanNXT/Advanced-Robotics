@@ -4,13 +4,27 @@ close all; clear all; clc;
 IP = '172.19.226.39';
 pb = PiBot(IP);
 
+
+% known values
+% known values of the field/robot
+FIELD_SIZE_X = 2.0;
+FIELD_SIZE_Y = 2.0;
+SPos = [0; 0];          %starting position of the robot
+ROBOT_RADIUS = 0.12 / 2.0;
+
+
+robotbearing = 0;
 i=0;
+
+NeilVision
+
+SPos
 
 while (i<1)
     close all; 
 
     NeilVision
-    pause(2)
+    pause(1)
     % set up travel
     s=0.2;          % set desiered travel
     t=2;            % time to do it in
@@ -18,7 +32,9 @@ while (i<1)
     L = 0.12;       % length of base
     R = 0.028;      % wheel radius
 
+
     if bottomwhite < 250    % not close to wall
+        w=0;
         for blbl = 1:numel(blackblobs)
             if blacklabelx(blbl) > 120
                 obstacleangle = (blacklabelx(bb)-120)*60/240;
@@ -26,6 +42,9 @@ while (i<1)
                     w=0;        % turning velocity
                 else
                     w=pi/4;
+                    robotbearing = robotbearing+w*t;
+                    robotbearing = mod(robotbearing,2*pi);
+                    if (robotbearing>pi) robotbearing = robotbearing - 2*pi; end;
                 end
             else
                 obstacleangle = (120-blacklabelx(blbl))*60/240;
@@ -33,6 +52,9 @@ while (i<1)
                     w=0;
                 else
                     w=pi/4;
+                    robotbearing = robotbearing+w*t;
+                    robotbearing = mod(robotbearing,2*pi);
+                    if (robotbearing>pi) robotbearing = robotbearing - 2*pi; end;
                 end
             end
         end
