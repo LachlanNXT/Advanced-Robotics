@@ -3,9 +3,10 @@
 %function roboSim()
 
     %clear
-    close all
+    close all; clear all; clc;
     %landMarks = setupPlot(1);
-    landMarks = [9,9,1,1;9,1,9,1];
+    landMarks = [2,4,8,8;2,4,2,8];
+    %landMarks = [9,9,1,1;9,1,9,1];
     save landMarks;
     load landMarks;
     %landMarks = landMarks(:,1);
@@ -26,7 +27,7 @@
     axis equal
     axis([0,10,0,10]);
     hold on
-    pos = [1;5];
+    pos = [1;1];
     nPos = pos;
     posVec = pos;
     nPosVec = pos;
@@ -37,7 +38,7 @@
     nthetaVec = 0;
     phiaVec = 0;
     nphiaVec = 0;
-    phi = -pi/2;
+    phi = pi/2;
     nPhi = phi;
     timestep = 0.2;
     %W = [0.01 0; 0 0.01];
@@ -48,9 +49,9 @@
 %     vVec = rand(1,5);
 %     steps = randi([0 150],1,5);
 %    save('runParameters1', 'omegaVec', 'vVec', 'steps');
-    vVec = .5;
-    omegaVec = .125;
-    steps = 9999;
+    vVec = [.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0,.1,0];
+    omegaVec = [0,-.125,0,-.125,0,.125,0,.125,0,-.125,0,-.125,0,.125,0,.125,0,-.125,0,-.125,0,.125,0,.125];
+    steps = [300,60,60,60,300,60,60,60,300,60,60,60,300,60,60,60,300,60,60,60,300,60,60,60,300];
     std_dev = 0.4;
     %load runParameters
     wheelBase = 0.1;
@@ -196,10 +197,15 @@
     sightRX = [pos(1), pos(1)+cos(phi-pi/6)*15];
     sightRY = [pos(2), pos(2)+sin(phi-pi/6)*15];
     
+%     disp('xHato')
+%     disp([xHato(1:2); xHato(3)*180/pi])
+%     disp('xHat')
+%     disp([xHat(1:2); xHat(3)*180/pi])
+    
     %botPlot
     botPlot
     
-    pause(0.000001)
+    pause(0.005)
     
     end
     end
