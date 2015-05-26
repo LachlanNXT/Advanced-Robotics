@@ -1,4 +1,4 @@
-%prediction
+%predictionrobot
 
 Fx = [1, 0, (-v * sin(phi + phidot));
      0, 1, (v * cos(phi + phidot));

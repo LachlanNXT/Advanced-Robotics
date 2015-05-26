@@ -1,9 +1,17 @@
 %update
 
+
+nxD = lmPos(mark,1) - SPos(1);
+nyD = lmPos(mark,2) - SPos(2);
+nDist = sqrt(nxD^2 + nyD^2);
+nTheta = atan2(nyD,nxD) - phi;
+nTheta = mod(nTheta, 2*pi);
+if (nTheta>pi) nTheta = nTheta - 2*pi; end;
+
 %measurement noise
 sigr = (std_dev*randn); sigb = (std_dev*randn);
 %measurement estimation, range and bearing angle
-z = [dist+sigr; theta+sigb];
+z = [distance_of_landmark+sigr; angle+sigb];
 h = [nDist; nTheta];
 %innovation
 vErr = (z - h);
@@ -12,8 +20,8 @@ W = [(std_dev)^2, 0; 0, (std_dev)^2];
 
 %jacobians
 r = nDist;
-Hx = [-(landMarks(1,mark) - nPos(1))/r, -(landMarks(2,mark) - nPos(2))/r, 0;
-    (landMarks(2,mark) - nPos(2))/r^2, -(landMarks(1,mark) - nPos(1))/r^2, -1];
+Hx = [-(lmPos(mark,1) - SPos(1))/r, -(lmPos(mark,2) - SPos(2))/r, 0;
+    (lmPos(mark,2) - SPos(2))/r^2, -(lmPos(mark,1) - SPos(1))/r^2, -1];
 Hw = eye(2);
 
 %used to calulate K
@@ -23,7 +31,7 @@ S = Hx * P_cov * Hx' + Hw * W * Hw';
 K = P_cov * Hx' * inv(S);
 
 %predicted state from odometry
-xHato = [nPos; nPhi];
+xHato = [SPos; phi];
 disp('xHato')
 disp([xHato(1:2); xHato(3)*180/pi])
 
@@ -43,9 +51,9 @@ disp([xHat(1:2); xHat(3)*180/pi])
 % 
 
 %split vector back up
-nPos = xHat(1:2);
+SPos = xHat(1:2);
 
-nPhi = xHat(3);
+phi = xHat(3);
 
 %covariance matrix
 P_cov = P_cov - K * Hx * P_cov;

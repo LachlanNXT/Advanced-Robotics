@@ -6,7 +6,7 @@ pb = PiBot(IP);
 
 
 % set up travel
-s=0.05;          % set desiered travel
+s=0.2;          % set desiered travel
 t=2;            % time to do it in
 v=s/t;         % calculated velocity
 L = 0.12;       % length of base
@@ -15,10 +15,10 @@ R = 0.028;      % wheel radius
 % known values of the field/robot
 FIELD_SIZE_X = 4;
 FIELD_SIZE_Y = 4;
-SPos = [0; 2];          %starting position of the robot
+SPos = [0.3; 0.3];          %starting position of the robot
 ROBOT_RADIUS = 0.12 / 2.0;
 
-phi = -3*pi/4;
+phi = pi/4;
 robotbearing = phi;
 i=0;
 timestep = 0.2;
@@ -32,12 +32,13 @@ NeilVision
 predictionrobot
 %updateerobot
 
-z=260;
+z=240;
 
-while (i<7)
+while (i<125)
     close all; 
 
     
+%     updateerobot
     %pause(1)
 
     if bottomwhite < z    % not close to wall
@@ -68,8 +69,8 @@ while (i<7)
             end
         end
     else    % close to wall
-        w = -pi/4;       % turning velocity
-        %w =0;
+        %w = -pi/4;       % turning velocity
+        w =0;
         robotbearing = robotbearing+w*t;
         v = 0;      % robot not moving, just turning
         
@@ -118,7 +119,8 @@ while (i<7)
     
     
     i=i+1;
-
+    if i > 260
+        i = i -20;
     disp (i)
     
     
