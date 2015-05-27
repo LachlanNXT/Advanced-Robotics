@@ -12,10 +12,10 @@ function [ img ] = vect2img( data )
             for jj = 1:size(img,2) % loop through columns
                 for ii = 1:size(img,1) % loop through rows
                     for kk = 1:size(img,3)
-%                         if (length(data) ~= PiBot.IMAGE_SIZE)
-%                             img = [];
-%                             return;
-%                         end 
+                        if (length(data) ~= 320*240*3)
+                            img = [];
+                            return;
+                        end 
                         img(ii,jj,kk) = data(it); 
                         it = it + 1;
                     end

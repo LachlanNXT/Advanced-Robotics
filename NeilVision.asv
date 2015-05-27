@@ -7,9 +7,16 @@
 
 %% Get Image from Camera
 img = pb.getImageFromCamera();
+
+while(isempty(img))
+
+img = pb.getImageFromCamera();
+pause(1);
+
+end
 % img = imrotate(img, -90);
 img2 = imread('test.png');
-img = idouble(img2);
+img = idouble(img);
 
 % figure;
 % imshow(img);
@@ -64,7 +71,7 @@ redbinaryclean = iopen(redbinary, ones(5,5));
 greenbinaryclean = iopen(greenbinary, ones(6,6));
 bluebinaryclean = iopen(bluebinary, ones(5,6));
 whitebinaryclean = iopen(whitebinary, ones(8,8));
-blackbinaryclean = iopen(blackbinary, ones(7,7));
+blackbinaryclean = iopen(blackbinary, ones(4,4));
 
 % displays colours
 % figure;
@@ -80,7 +87,8 @@ blackbinaryclean = iopen(blackbinary, ones(7,7));
 
 % display original imagewith boxes and stars on blobs
 % red binary blobs
-figure;
+subplot(figure1);
+
 imshow(img)
 redblobs = iblobs(redbinaryclean, 'area', [50,3000], 'touch', 0);
 if numel(redblobs) > 0
@@ -106,7 +114,7 @@ if numel(whiteblobs) > 0
     whiteblobs.plot('w*')
 end
 % black binary blobs
-blackblobs = iblobs(blackbinaryclean, 'area', [500,5000]);
+blackblobs = iblobs(blackbinaryclean, 'area', [1500,5000]);
 if numel(blackblobs) > 0
     blackblobs.plot_box('m')
     blackblobs.plot('m*')
@@ -139,9 +147,18 @@ if numel(blueblobs) > 0
     bluelabely = blueblobs.vc;
 end
 if numel(whiteblobs) > 0
-    whitelabelx = whiteblobs.uc;
-    whitelabely = whiteblobs.vc;
-    bottomwhite = whiteblobs.vmin;
+    whitearea = whiteblobs(1).area_;
+    whitelabelx = whiteblobs(1).uc;
+    whitelabely = whiteblobs(1).vc;
+    bottomwhite = whiteblobs(1).vmin;
+    for ww = 1:numel(whiteblobs)
+        if whitearea < whiteblobs(ww).area_
+            whitearea = whiteblobs(ww).area_;
+            whitelabelx = whiteblobs(ww).uc;
+            whitelabely = whiteblobs(ww).vc;
+            bottomwhite = whiteblobs(ww).vmin;
+        end
+    end
 end
 if numel(blackblobs) > 0
     blacklabelx = blackblobs.uc;

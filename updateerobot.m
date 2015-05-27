@@ -32,13 +32,13 @@ K = P_cov * Hx' * inv(S);
 
 %predicted state from odometry
 xHato = [SPos; robotbearing];
-disp('xHato')
-disp([xHato(1:2); xHato(3)*180/pi])
+% disp('xHato')
+% disp([xHato(1:2); xHato(3)*180/pi])
 
 %update predicted state using new info
 xHat = xHato + K * vErr;
-disp('xHat')
-disp([xHat(1:2); xHat(3)*180/pi])
+% disp('xHat')
+% disp([xHat(1:2); xHat(3)*180/pi])
 
 %diff = [diff, (xHat - xHato)];
 %diff = sign(diff);

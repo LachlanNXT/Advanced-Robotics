@@ -9,8 +9,8 @@ actualticks = ticks2-ticks1;
 while actualticks < 680
    ticks2 = pb.getMotorTicks();
    actualticks = ticks2-ticks1;
-   pb.setMotorSpeeds('A',255*.22)
-   pb.setMotorSpeeds('B',255*.2)
+   pb.setMotorSpeeds('A',255)
+   pb.setMotorSpeeds('B',255)
 end
 
 
