@@ -6,10 +6,10 @@
 % pb = PiBot(IP);
 
 %% Get Image from Camera
-% img = pb.getImageFromCamera();
-%img = imrotate(img, -90);
+img = pb.getImageFromCamera();
+% img = imrotate(img, -90);
 img2 = imread('test.png');
-img = idouble(img2);
+img = idouble(img);
 
 % figure;
 % imshow(img);
@@ -34,16 +34,6 @@ BRG = [0.63, 0.36];         %marker 7
 BGR = [1.24, 0.83];         %marker 8
 GBG = [0.71, 0.83];         %marker 9
 
-lmPos = [1.24 1.76; %1 GBR, 
-         1.62 0.64; %2 RGR,
-         0.31 1.52; %3 BRB,
-         1.24 0.45; %4 RGB,
-         1.48 1.42; %5 BGB,
-         0.94 1.42; %6 RBR,
-         0.63 0.36; %7 BRG,
-         1.24 0.83; %8 BGR,
-         0.71 0.83; %9 GBG,
-        ];
 
 % setup colours
 red = img(:,:,1);
@@ -74,7 +64,7 @@ redbinaryclean = iopen(redbinary, ones(5,5));
 greenbinaryclean = iopen(greenbinary, ones(6,6));
 bluebinaryclean = iopen(bluebinary, ones(5,6));
 whitebinaryclean = iopen(whitebinary, ones(8,8));
-blackbinaryclean = iopen(blackbinary, ones(7,7));
+blackbinaryclean = iopen(blackbinary, ones(5,5));
 
 % displays colours
 % figure;
@@ -85,8 +75,8 @@ blackbinaryclean = iopen(blackbinary, ones(7,7));
 % imshow(bluebinaryclean)
 % figure;
 % imshow(whitebinaryclean)
-% figure;
-% imshow(blackbinaryclean)
+figure;
+imshow(blackbinaryclean)
 
 % display original imagewith boxes and stars on blobs
 % red binary blobs
@@ -116,7 +106,7 @@ if numel(whiteblobs) > 0
     whiteblobs.plot('w*')
 end
 % black binary blobs
-blackblobs = iblobs(blackbinaryclean, 'area', [500,5000]);
+blackblobs = iblobs(blackbinaryclean, 'area', [1500,5000]);
 if numel(blackblobs) > 0
     blackblobs.plot_box('m')
     blackblobs.plot('m*')

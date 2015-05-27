@@ -4,14 +4,14 @@
 nxD = lmPos(mark,1) - SPos(1);
 nyD = lmPos(mark,2) - SPos(2);
 nDist = sqrt(nxD^2 + nyD^2);
-nTheta = atan2(nyD,nxD) - phi;
+nTheta = atan2(nyD,nxD) - robotbearing;
 nTheta = mod(nTheta, 2*pi);
 if (nTheta>pi) nTheta = nTheta - 2*pi; end;
 
 %measurement noise
-sigr = (std_dev*randn); sigb = (std_dev*randn);
+% sigr = (std_dev*randn); sigb = (std_dev*randn);
 %measurement estimation, range and bearing angle
-z = [distance_of_landmark+sigr; angle+sigb];
+z = [distance_of_landmark; angle];
 h = [nDist; nTheta];
 %innovation
 vErr = (z - h);
@@ -31,7 +31,7 @@ S = Hx * P_cov * Hx' + Hw * W * Hw';
 K = P_cov * Hx' * inv(S);
 
 %predicted state from odometry
-xHato = [SPos; phi];
+xHato = [SPos; robotbearing];
 disp('xHato')
 disp([xHato(1:2); xHato(3)*180/pi])
 
@@ -53,7 +53,7 @@ disp([xHat(1:2); xHat(3)*180/pi])
 %split vector back up
 SPos = xHat(1:2);
 
-phi = xHat(3);
+robotbearing = xHat(3);
 
 %covariance matrix
 P_cov = P_cov - K * Hx * P_cov;
