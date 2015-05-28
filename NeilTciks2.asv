@@ -12,7 +12,7 @@ ticks1 = pb.getMotorTicks()
 %end
 
 pb.setMotorSpeeds('A',50)
-pb.setMotorSpeeds('B',50)
+pb.setMotorSpeeds('B',150)
 pause (1)
 pb.setMotorSpeeds('A',0)
 pb.setMotorSpeeds('B',0)

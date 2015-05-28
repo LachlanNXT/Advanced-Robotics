@@ -58,15 +58,15 @@ robotbearing = xHat(3);
 %covariance matrix
 P_cov = P_cov - K * Hx * P_cov;
 
-%%
+
 if (distance_of_landmark < old_distance)
     old_distance = distance_of_landmark;
 end
-if (old_distance < 0.3 && angle < 0 && angle > -10*pi/180)
-   do_i_turn = 1; % turn left
+if (old_distance < 0.2 && angle < 0)
+   do_i_turn = 1; 
     
 end
-if (old_distance < 0.3 && angle >=0 && angle < 10*pi/180)
-    do_i_turn = -1; % turn right
+if (old_distance < 0.2 && angle >=0 )
+    do_i_turn = -1;
 end
-%%
+

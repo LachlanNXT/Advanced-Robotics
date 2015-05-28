@@ -11,10 +11,11 @@ img = pb.getImageFromCamera();
 while(isempty(img))
 
 img = pb.getImageFromCamera();
-pause(1);
+pause(.1);
 
 end
 % img = imrotate(img, -90);
+img = flip(img,2);
 img2 = imread('test.png');
 img = idouble(img);
 
@@ -26,6 +27,7 @@ focal_length = 3.6;
 beacon_height = 100;
 sensor_height = 2.74;
 image_height = 320;
+
 
 
 % set-up markers
@@ -41,6 +43,23 @@ BRG = [0.63, 0.36];         %marker 7
 BGR = [1.24, 0.83];         %marker 8
 GBG = [0.71, 0.83];         %marker 9
 
+GBR = lmPos(1,:);
+RGR = lmPos(2,:);
+BRB = lmPos(3,:);
+RGB = lmPos(4,:);
+BGB = lmPos(5,:);
+RBR = lmPos(6,:);
+BRG = lmPos(7,:);
+BGR = lmPos(8,:);
+ = lmPos(9,:);
+
+
+
+
+
+
+
+
 
 % setup colours
 red = img(:,:,1);
@@ -53,10 +72,10 @@ b = blue./y;
 
 % set-up binarys
 redbinary = (r>0.6);
-greenbinary = (g>.5);
+greenbinary = (g>.52);
 bluebinary = (b>.3);
 whitebinary = (g>.5) & (r<.35) & (b<.1);
-blackbinary = (g>.4) & (r<.5) & (b<0.01);
+blackbinary = (g<.2) & (r<.2) & (b<0.2);
 
 % displays colours
 % figure;
@@ -88,27 +107,27 @@ blackbinaryclean = iopen(blackbinary, ones(4,4));
 % display original imagewith boxes and stars on blobs
 % red binary blobs
 subplot(figure1);
-
-imshow(img)
-redblobs = iblobs(redbinaryclean, 'area', [50,3000], 'touch', 0);
+hold on
+imshow(img);
+redblobs = iblobs(redbinaryclean, 'area', [100,3000], 'touch', 0);
 if numel(redblobs) > 0
     redblobs.plot_box('r')
     redblobs.plot('r*')
 end
 % green binary blobs
-greenblobs = iblobs(greenbinaryclean, 'area', [50,3000], 'touch', 0);
+greenblobs = iblobs(greenbinaryclean, 'area', [100,3000], 'touch', 0);
 if numel(greenblobs) > 0
     greenblobs.plot_box('g')
     greenblobs.plot('g*')
 end
 % blue binary blobs
-blueblobs = iblobs(bluebinaryclean, 'area', [50,3000], 'touch', 0);
+blueblobs = iblobs(bluebinaryclean, 'area', [100,3000], 'touch', 0);
 if numel(blueblobs) > 0
     blueblobs.plot_box('b')
     blueblobs.plot('b*')
 end
 % white binary blobs
-whiteblobs = iblobs(whitebinaryclean, 'area', [50,50000], 'touch', 1, 'class', 1);
+whiteblobs = iblobs(whitebinaryclean, 'area', [100,50000], 'touch', 1, 'class', 1);
 if numel(whiteblobs) > 0
     whiteblobs.plot_box('w')
     whiteblobs.plot('w*')
@@ -189,14 +208,14 @@ for rr = 1:numel(redblobs),
                         disp(distance_of_landmark)
                         mark = 4;
                         if greenlabelx(gg) > 120
-                            angle = (greenlabelx(gg)-120)*60/240;
-                            angle = angle*pi/180;
+                            angle = (greenlabelx(gg)-120)*41/240;
+                            angle = -(angle*pi/180);
                             disp('angle')
                             disp(angle)
                         end
                         if greenlabelx(gg) < 120
-                            angle = (120-greenlabelx(gg))*60/240;
-                            angle = -(angle*pi/180);
+                            angle = (120-greenlabelx(gg))*41/240;
+                            angle = angle*pi/180;
                             disp('angle')
                             disp(angle)
                         end
@@ -210,14 +229,14 @@ for rr = 1:numel(redblobs),
                         disp(distance_of_landmark)
                         mark = 8;
                         if greenlabelx(gg) > 120
-                            angle = (greenlabelx(gg)-120)*60/240;
-                            angle = angle*pi/180;
+                            angle = (greenlabelx(gg)-120)*41/240;
+                            angle = -(angle*pi/180);
                             disp('angle')
                             disp(angle)
                         end
                         if greenlabelx(gg) < 120
-                            angle = (120-greenlabelx(gg))*60/240;
-                            angle = -(angle*pi/180);
+                            angle = (120-greenlabelx(gg))*41/240;
+                            angle = angle*pi/180;
                             disp('angle')
                             disp(angle)
                         end
@@ -232,14 +251,14 @@ for rr = 1:numel(redblobs),
                         disp(distance_of_landmark)
                         mark = 7;
                         if redlabelx(rr) > 120
-                            angle = (redlabelx(rr)-120)*60/240;
-                            angle = angle*pi/180;
+                            angle = (redlabelx(rr)-120)*41/240;
+                            angle = -(angle*pi/180);
                             disp('angle')
                             disp(angle)
                         end
                         if redlabelx(rr) < 120
-                            angle = (120-redlabelx(rr))*60/240;
-                            angle = -(angle*pi/180);
+                            angle = (120-redlabelx(rr))*41/240;
+                            angle = angle*pi/180;
                             disp('angle')
                             disp(angle)
                         end
@@ -253,14 +272,14 @@ for rr = 1:numel(redblobs),
                         disp(distance_of_landmark)
                         mark = 1;
                         if bluelabelx(bb) > 120
-                            angle = (bluelabelx(bb)-120)*60/240;
-                            angle = angle*pi/180;
+                            angle = (bluelabelx(bb)-120)*41/240;
+                            angle = -(angle*pi/180);
                             disp('angle')
                             disp(angle)
                         end
                         if bluelabelx(bb) < 120
-                            angle = (120-bluelabelx(bb))*60/240;
-                            angle = -(angle*pi/180);
+                            angle = (120-bluelabelx(bb))*41/240;
+                            angle = angle*pi/180;
                             disp('angle')
                             disp(angle)
                         end
@@ -291,14 +310,14 @@ for rr = 1:numel(redblobs),
                             disp(distance_of_landmark)
                             mark = 6;
                             if bluelabelx(bb) > 120
-                                angle = (bluelabelx(bb)-120)*60/240;
-                                angle = angle*pi/180;
+                                angle = (bluelabelx(bb)-120)*41/240;
+                                angle = -(angle*pi/180);
                                 disp('angle')
                                 disp(angle)
                             end
                             if bluelabelx(bb) < 120
-                                angle = (120-bluelabelx(bb))*60/240;
-                                angle = -(angle*pi/180);
+                                angle = (120-bluelabelx(bb))*41/240;
+                                angle = angle*pi/180;
                                 disp('angle')
                                 disp(angle)
                             end
@@ -319,14 +338,14 @@ for rr = 1:numel(redblobs),
                             disp(distance_of_landmark)
                             mark = 3;
                             if redlabelx(rr) > 120
-                                angle = (redlabelx(rr)-120)*60/240;
-                                angle = angle*pi/180;
+                                angle = (redlabelx(rr)-120)*41/240;
+                                angle = -(angle*pi/180);
                                 disp('angle')
                                 disp(angle)
                             end
                             if redlabelx(rr) < 120
-                                angle = (120-redlabelx(rr))*60/240;
-                                angle = -(angle*pi/180);
+                                angle = (120-redlabelx(rr))*41/240;
+                                angle = angle*pi/180;
                                 disp('angle')
                                 disp(angle)
                             end
@@ -354,14 +373,14 @@ for rr = 1:numel(redblobs),
                             disp(distance_of_landmark)
                             mark = 2;
                             if greenlabelx(gg) > 120
-                                angle = (greenlabelx(gg)-120)*60/240;
-                                angle = angle*pi/180;
+                                angle = (greenlabelx(gg)-120)*41/240;
+                                angle = -(angle*pi/180);
                                 disp('angle')
                                 disp(angle)
                             end
                             if greenlabelx(gg) < 120
-                                angle = (120-greenlabelx(gg))*60/240;
-                                angle = -(angle*pi/180);
+                                angle = (120-greenlabelx(gg))*41/240;
+                                angle = angle*pi/180;
                                 disp('angle')
                                 disp(angle)
                             end
@@ -391,14 +410,14 @@ for gg = 1:numel(greenblobs),
                             disp(distance_of_landmark)
                             mark = 9;
                             if bluelabelx(bb) > 120
-                                angle = (bluelabelx(bb)-120)*60/240;
-                                angle = angle*pi/180;
+                                angle = (bluelabelx(bb)-120)*41/240;
+                                angle = -(angle*pi/180);
                                 disp('angle')
                                 disp(angle)
                             end
                             if bluelabelx(bb) < 120
-                                angle = (120-bluelabelx(bb))*60/240;
-                                angle = -(angle*pi/180);
+                                angle = (120-bluelabelx(bb))*41/240;
+                                angle = angle*pi/180;
                                 disp('angle')
                                 disp(angle)
                             end
@@ -419,14 +438,14 @@ for gg = 1:numel(greenblobs),
                             disp(distance_of_landmark)
                             mark = 5;
                             if greenlabelx(gg) > 120
-                                angle = (greenlabelx(gg)-120)*60/240;
-                                angle = angle*pi/180;
+                                angle = (greenlabelx(gg)-120)*41/240;
+                                angle = -(angle*pi/180);
                                 disp('angle')
                                 disp(angle)
                             end
                             if greenlabelx(gg) < 120
-                                angle = (120-greenlabelx(gg))*60/240;
-                                angle = -(angle*pi/180);
+                                angle = (120-greenlabelx(gg))*41/240;
+                                angle = angle*pi/180;
                                 disp('angle')
                                 disp(angle)
                             end

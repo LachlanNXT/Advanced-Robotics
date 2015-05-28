@@ -1,11 +1,11 @@
-% close all; clear all; clc;
+close all; clear all; clc;
 % 
 %% Connect to the Rasp Pi
 % Get you Pi's IP (type hostname -I into Pi terminal)
-% IP = '172.19.226.39';
-% pb = PiBot(IP);
+IP = '172.19.226.39';
+pb = PiBot(IP);
 
-%% Get Image from Camera
+% Get Image from Camera
 % img = pb.getImageFromCamera();
 % 
 % while(isempty(img))
@@ -14,7 +14,6 @@
 % pause(.1);
 % 
 % end
-% img = imrotate(img, -90);
 img2 = imread('test2.png');
 img = flip(img2,2);
 img = idouble(img);
@@ -43,15 +42,15 @@ BRG = [0.63, 0.36];         %marker 7
 BGR = [1.24, 0.83];         %marker 8
 GBG = [0.71, 0.83];         %marker 9
 
-GBR = lmPos(1,:);
-RGR = lmPos(2,:);
-BRB = lmPos(3,:);
-RGB = lmPos(4,:);
-BGB = lmPos(5,:);
-RBR = lmPos(6,:);
-BRG = lmPos(7,:);
-BGR = lmPos(8,:);
-GBG = lmPos(9,:);
+% GBR = lmPos(1,:);
+% RGR = lmPos(2,:);
+% BRB = lmPos(3,:);
+% RGB = lmPos(4,:);
+% BGB = lmPos(5,:);
+% RBR = lmPos(6,:);
+% BRG = lmPos(7,:);
+% BGR = lmPos(8,:);
+% GBG = lmPos(9,:);
 
 
 
@@ -85,7 +84,7 @@ redbinaryclean = iopen(redbinary, ones(5,5));
 greenbinaryclean = iopen(greenbinary, ones(6,6));
 bluebinaryclean = iopen(bluebinary, ones(5,6));
 whitebinaryclean = iopen(whitebinary, ones(8,8));
-blackbinaryclean = iopen(blackbinary, ones(4,4));
+blackbinaryclean = iopen(blackbinary, ones(5,5));
 
 % displays colours
 % figure;
@@ -96,12 +95,12 @@ blackbinaryclean = iopen(blackbinary, ones(4,4));
 % imshow(bluebinaryclean)
 % figure;
 % imshow(whitebinaryclean)
-% figure;
-% imshow(blackbinaryclean)
+figure;
+imshow(blackbinaryclean)
 
 % display original imagewith boxes and stars on blobs
 % red binary blobs
-subplot(figure1);
+figure;
 hold on
 imshow(img);
 redblobs = iblobs(redbinaryclean, 'area', [100,3000], 'touch', 0);
@@ -122,13 +121,13 @@ if numel(blueblobs) > 0
     blueblobs.plot('b*')
 end
 % white binary blobs
-whiteblobs = iblobs(whitebinaryclean, 'area', [100,50000], 'touch', 1, 'class', 1);
+whiteblobs = iblobs(whitebinaryclean, 'area', [100,inf], 'touch', 1, 'class', 1);
 if numel(whiteblobs) > 0
     whiteblobs.plot_box('w')
     whiteblobs.plot('w*')
 end
 % black binary blobs
-blackblobs = iblobs(blackbinaryclean, 'area', [1500,5000]);
+blackblobs = iblobs(blackbinaryclean, 'area', [10000,inf]);
 if numel(blackblobs) > 0
     blackblobs.plot_box('m')
     blackblobs.plot('m*')
@@ -186,10 +185,6 @@ ratio = 2.28*10;
 
 % all bands different
 % all red labels
-
-do_i_turn = 0;
-old_distance = 999;
-
 for rr = 1:numel(redblobs),
     % all green labels
     for gg = 1:numel(greenblobs),
@@ -456,5 +451,4 @@ for gg = 1:numel(greenblobs),
         end
     end
 end
-
 
