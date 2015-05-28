@@ -1,7 +1,7 @@
 %update
 
 %measurement noise
-sigr = (std_dev*randn); sigb = (std_dev*randn);
+sigr = (std_dev/10*randn); sigb = (std_dev/10*randn);
 %measurement estimation, range and bearing angle
 z = [dist+sigr; theta+sigb];
 h = [nDist; nTheta];
